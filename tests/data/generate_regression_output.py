@@ -40,11 +40,13 @@ def generate_output(ctx_len: int) -> None:
         )
 
     context_df = df.iloc[:ctx_len].copy()
-    future_timestamps = df["timestamps"].iloc[
-        ctx_len : ctx_len + PRED_LEN
-    ].reset_index(drop=True)
+    future_timestamps = (
+        df["timestamps"].iloc[ctx_len : ctx_len + PRED_LEN].reset_index(drop=True)
+    )
 
-    tokenizer = KronosTokenizer.from_pretrained("NeoQuasar/Kronos-Tokenizer-base", revision=TOKENIZER_REVISION)
+    tokenizer = KronosTokenizer.from_pretrained(
+        "NeoQuasar/Kronos-Tokenizer-base", revision=TOKENIZER_REVISION
+    )
     model = Kronos.from_pretrained("NeoQuasar/Kronos-small", revision=MODEL_REVISION)
     tokenizer.eval()
     model.eval()
@@ -73,12 +75,13 @@ def generate_output(ctx_len: int) -> None:
     output_df["timestamps"] = future_timestamps
     output_df = output_df[["timestamps"] + FEATURE_NAMES]
     output_df.to_csv(OUTPUT_DATA_DIR / f"regression_output_{ctx_len}.csv", index=False)
-    print(f"Saved {ctx_len} fixture to {OUTPUT_DATA_DIR / f'regression_output_{ctx_len}.csv'}")
+    print(
+        f"Saved {ctx_len} fixture to {OUTPUT_DATA_DIR / f'regression_output_{ctx_len}.csv'}"
+    )
 
 
 if __name__ == "__main__":
     set_seed(SEED)
-
 
     df = pd.read_csv(INPUT_DATA_PATH, parse_dates=["timestamps"])
     if df.shape[0] < MAX_CTX_LEN + PRED_LEN:
