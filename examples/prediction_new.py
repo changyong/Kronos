@@ -1307,9 +1307,9 @@ def main():
     STOCK_CONFIG = {
         "stock_code": "603288",
         "stock_name": "海天味业",
-        "data_dir": r"D:\lianghuajiaoyi\Kronos\examples\data",
+        "data_dir": "examples/data",
         "pred_days": 60,
-        "output_dir": r"D:\lianghuajiaoyi\Kronos\examples\yuce",
+        "output_dir": "examples/yuce",
         "history_years": 1
     }
 
